@@ -1,26 +1,397 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 🌍 GLOBAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #0b1220, #111827);
+  color: #ffffff;
+  transition: background 0.6s ease;
+}
+
+/* 📦 LAYOUT */
+.container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* 📌 SIDEBAR */
+.sidebar {
+  width: 80px;
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sidebar-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.sidebar-icon.active {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+}
+
+/* 📊 MAIN */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 🔍 SEARCH BAR (FIXED LOOK) */
+.search {
+  display: flex;
+  align-items: center;
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(15px);
+  border-radius: 30px;
+  padding: 8px;
+  gap: 10px;
+}
+
+.search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 15px;
+  padding: 10px 15px;
+  outline: none;
+}
+
+.search button {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.search button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(99,102,241,0.5);
+}
+
+
+.card {
+  /*background: rgba(255, 255, 255, 0.04); */
+  transition: 0.3s;
+}
+
+.card:hover {
+ /* transform: translateY(-4px); */
+}
+
+/* 📐 GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 20px;
+}
+
+/* 🌤 TOP WEATHER */
+.weather-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.weather-top h1 {
+  font-size: 26px;
+}
+
+.temp {
+  font-size: 72px;
+  font-weight: 700;
+}
+
+/* ⏱ TODAY FORECAST */
+.forecast-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.forecast-item {
+  text-align: center;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.forecast-item:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* 🌡 AIR INFO */
+.air-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.air-grid div {
+  background: rgba(255,255,255,0.03);
+  padding: 15px;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.air-grid div:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+/* 📅 WEEKLY FORECAST (MAIN FIX 🔥) */
+.week-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  margin-bottom: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.week-item:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateX(5px);
+}
+
+/* LEFT SIDE */
+.week-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.week-left img {
+  width: 28px;
+}
+
+/* CONDITION TEXT */
+.week-left div span {
+  display: block;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* RIGHT SIDE TEMP */
+.week-temp {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* 🌙 NIGHT MODE */
+body.night {
+  background: radial-gradient(ellipse at bottom, #0b0f2a 0%, #020111 100%);
+}
+
+/* ⭐ STARS FIXED */
+body.stars::before,
+body.stars::after {
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 🌤 THEMES */
+body.sunny {
+  background: linear-gradient(135deg, #1e3a8a, #0ea5e9);
+}
+
+body.cloudy {
+  background: linear-gradient(135deg, #374151, #111827);
+}
+
+body.rainy {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+}
+
+body.stars::before,
+body.stars::after {
+  z-index: -1;   /* push background behind everything */
+  pointer-events: none;
+}
+
+.container,
+.main,
+.card {
+  position: relative;
+  z-index: 1;
+}
+
+/* CONTAINER */
+.week-item-container {
+  margin-bottom: 10px;
+}
+
+/* CLICKABLE ROW */
+.week-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.week-item:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateX(5px);
+}
+
+/* DROPDOWN */
+.dropdown {
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.25);
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  animation: fadeDown 0.3s ease;
+}
+
+/* HOUR ITEM */
+.hour-item {
+  min-width: 80px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  transition: 0.3s;
+}
+
+.hour-item:hover {
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.05);
+}
+
+.hour-item img {
+  width: 30px;
+}
+
+/* ANIMATION */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* DROPDOWN BASE */
+.dropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  display: flex;
+  gap: 12px;
+  margin-top: 0;
+}
+
+/* OPEN STATE */
+.dropdown.open {
+  max-height: 200px;
+  margin-top: 10px;
+}
+
+/* HOUR ITEMS */
+.hour-item {
+  min-width: 85px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  transition: 0.3s;
+}
+
+.hour-item:hover {
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.08);
+}
+
+.hour-item img {
+  width: 28px;
+}
+
+/* SMOOTH SCROLL INSIDE */
+.dropdown {
+  overflow-x: auto;
+}
+
+.dropdown::-webkit-scrollbar {
+  height: 5px;
+}
+
+.dropdown::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}
+h3 {
+  padding: 3px 0;
+}
+
+/* 🌟 */
+
+
+.weather-top {
+  background: radial-gradient(circle at top right, rgba(59,130,246,0.2), transparent);
+}
+.city {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.desc {
+  opacity: 0.7;
+}
+
+.card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
